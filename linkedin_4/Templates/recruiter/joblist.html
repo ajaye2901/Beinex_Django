@@ -1,0 +1,39 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>jobs</title>
+</head>
+<body>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Position</th>
+                <th>Salary</th>
+                <th>Location</th>
+                <th>Job Type</th>
+                <th>Job Description</th>
+                <th>Available</th>
+                <th>Edit / Delete</th>
+            </tr>
+        </thead>
+        <tbody> 
+            {% for job in jobs %}
+            <tr>
+                <td>{{ job.Position }}</td>
+                <td>{{ job.Salary }}</td>
+                <td>{{ job.Location }}</td>
+                <td>{{ job.Job_type }}</td>
+                <td>{{ job.Job_requirement }}</td>
+                <td>{{ job.Available }}</td>
+                <td>
+                    <a href="{% url 'edit_job' job.pk %}">Edit</a>
+                    <a href="{% url 'delete_job' job.pk %}">Delete</a>
+                </td>
+                <td><a href="{% url 'job_applicants' job.pk %}">Applicants</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

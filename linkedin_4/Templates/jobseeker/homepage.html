@@ -1,0 +1,47 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>homepage</title>
+</head>
+<body>
+    {% if user.is_authenticated %}
+    <h1>Welcome, {{ user.username }}</h1>
+    <a href="/update">Profile Update</a><br><br>
+    <a href="/profile">Profile</a><br><br>
+    <a href="{% url 'logout' %}">Logout</a><br><br>
+
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Position</th>
+                <th>Salary</th>
+                <th>Location</th>
+                <th>Job Type</th>
+                <th>Job Description</th>
+                <th>Available</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for job in jobs %}
+            <tr>
+                <td>{{ job.Position }}</td>
+                <td>{{ job.Salary }}</td>
+                <td>{{ job.Location }}</td>
+                <td>{{ job.Job_type }}</td>
+                <td>{{ job.Job_requirement }}</td>
+                <td>{{ job.Available }}</td>
+                <td>
+                    {% if job.Available %}
+                        <a href="{% url 'apply_job' job.id %}">Apply</a>
+                    {% else %}
+                        Not Available
+                    {% endif %}
+                </td>                
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
+</body>
+</html>
