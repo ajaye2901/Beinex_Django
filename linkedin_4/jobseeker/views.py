@@ -5,6 +5,8 @@ from django.urls import reverse
 from .forms import UpdateUserform, JobApplicationForm
 from .forms import UpdateProfile, JobApplication
 from recruiter.models import NewJob
+from django.core.mail import send_mail
+from django.conf import settings
 
 # Create your views here.
 
@@ -40,7 +42,18 @@ def apply_job(request, job_id):
             application.job = job
             application.applicant = request.user
             application.save()
-            return redirect('user_details')
+
+            jobseeker_mail = request.user.email
+            jobseeker_subject = f'Application for {job.Position}'
+            jobseeker_message = f'You have successfull applied for the {job.Position}.'
+            send_mail(jobseeker_subject,jobseeker_message,settings.EMAIL_HOST_USER, [jobseeker_mail])
+
+            recuiter_mail = job.recruiter.email
+            recuiter_subject = f'Application for {job.Position}'
+            recuiter_message = f'{request.user.username} applied for {job.Position}' 
+            send_mail(recuiter_subject,recuiter_message,settings.EMAIL_HOST_USER, [recuiter_mail])
+
+            return render(request,'jobseeker/homepage.html')
     else:
         form = JobApplicationForm()
     return render(request, 'jobseeker/applyjob.html', {'form': form, 'job': job})

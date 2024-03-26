@@ -134,3 +134,10 @@ AUTHENTICATION_BACKENDS = [
 ]
 
 AUTH_USER_MODEL = 'linkedin_user.UserLinkedin'
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'sandbox.smtp.mailtrap.io'
+EMAIL_HOST_USER = 'user'
+EMAIL_HOST_PASSWORD = 'oassword'
+EMAIL_PORT = '2525'
+EMAIL_USE_TLS = True
