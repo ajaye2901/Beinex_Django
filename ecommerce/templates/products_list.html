@@ -1,0 +1,42 @@
+{% load static %}
+{% load chunks %}
+
+<div class="small-container">
+    <div class="row row-2">
+        <h2>All Products</h2>
+        <form method="get" action="">
+            <input type="text" name="q" placeholder="Search products..." value="{{ search_query }}">
+            <button type="submit">Search</button>
+            <select name="sort_by" onchange="this.form.submit()">
+                <option value="priority" {% if sort_by == 'priority' %}selected{% endif %}>Sort By Popularity</option>
+                <option value="price" {% if sort_by == 'price' %}selected{% endif %}>Sort By Price</option>
+                <option value="name" {% if sort_by == 'name' %}selected{% endif %}>Sort By Name</option>
+            </select>
+        </form>
+    </div>
+    {% for product_chunks in list_products|chunks:4 %}
+    <div class="row">
+        {% for product in product_chunks %}
+        <div class="col-4">
+            <a href="{% url 'products_details' product.id %}"><img src="{{ product.image.url }}"></a>
+            <h4>{{product.title}}</h4>
+            <p>${{product.price}}</p>
+            <a style="color: orange;" href="{% url 'review' product.id %}" > Reviews and Ratings </a>
+
+        </div>
+        {% endfor %}
+    </div>
+    {% endfor %}
+
+    <div class="page-btn">
+        {% if list_products.has_previous %}
+        <a href="?page={{ list_products.previous_page_number }}&sort_by={{ sort_by }}"><span><<</span></a>
+        {% endif %}
+        {% for i in list_products.paginator.page_range %}
+        <a href="?page={{i}}&sort_by={{ sort_by }}"><span>{{i}}</span></a>
+        {% endfor %}
+        {% if list_products.has_next %}
+        <a href="?page={{ list_products.next_page_number }}&sort_by={{ sort_by }}"><span>>></span></a>
+        {% endif %}
+    </div>
+</div>
