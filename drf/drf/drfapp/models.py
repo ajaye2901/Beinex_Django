@@ -67,3 +67,9 @@ class User(AbstractUser):
     )
     def __str__(self):
         return self.username
+
+
+class Snippet(models.Model) :
+    snippet_id = models.AutoField(primary_key=True)
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    text = models.CharField(max_length=200, null=True)

@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Role, User
+from .models import Role, User, Snippet
 import django.contrib.auth.password_validation as validators
 
 class RoleSerializer(serializers.ModelSerializer):
@@ -22,3 +22,18 @@ class UserListSerializer(serializers.ModelSerializer) :
         class Meta:
             model = User
             fields = '__all__'
+
+class SnippetCreateSerializer(serializers.ModelSerializer) :
+    class Meta:
+        model = Snippet
+        fields = '__all__'
+
+class SnippetListSerializer(serializers.ModelSerializer) :
+    class Meta:
+        model = Snippet
+        fields = '__all__'
+
+class SnippetUpdateSerializer(serializers.ModelSerializer) :
+    class Meta:
+        model = Snippet
+        fields = '__all__'
