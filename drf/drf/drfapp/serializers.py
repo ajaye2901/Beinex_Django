@@ -37,3 +37,8 @@ class SnippetUpdateSerializer(serializers.ModelSerializer) :
     class Meta:
         model = Snippet
         fields = '__all__'
+
+class SnippetSerializer(serializers.ModelSerializer) :
+    class Meta:
+        model = Snippet
+        fields = '__all__'

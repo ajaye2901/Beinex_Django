@@ -129,6 +129,8 @@ AUTH_USER_MODEL = 'drfapp.User'
 
 REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.IsAuthenticated",),
+    "DEFAULT_PAGINATION_CLASSES": "rest_framework.pagination.LimitOffsetPagination",
+    # "PAGE_SIZE": 1,
     "DEFAULT_AUTHENTICATION_CLASSES": (
         "rest_framework_simplejwt.authentication.JWTAuthentication",
         "rest_framework.authentication.SessionAuthentication",

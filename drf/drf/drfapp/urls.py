@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import UserCreate, UserDetails, UserRetrieveAPIView, SnippetCreate, SnippetView, SnippetUpdate, SnippetDelete, SnippetBulkDelete
+from .views import UserCreate, UserDetails, UserRetrieveAPIView, SnippetCreate, SnippetView, SnippetUpdate, SnippetDelete, SnippetBulkDelete, SnippetList
  
 urlpatterns = [
     path('usercreate/', UserCreate.as_view(), name='usercreate'),
@@ -10,5 +10,7 @@ urlpatterns = [
     path('snippetupdate/<int:pk>', SnippetUpdate.as_view(), name='snippetupdate'),
     path('snippetdelete/<int:pk>', SnippetDelete.as_view(), name='snippetdelete'),
     path('snippetbulkdelete/', SnippetBulkDelete.as_view(), name='snippetbulkdelete'),
+    path('snippetdelete/<int:pk>', SnippetDelete.as_view(), name='snippetdelete'),
+    path('snippetlist/', SnippetList.as_view(), name='snippetlist'),
 ]
 
