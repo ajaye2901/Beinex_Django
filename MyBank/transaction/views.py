@@ -3,9 +3,11 @@ from rest_framework.response import Response
 from rest_framework import status
 from decimal import Decimal
 from .models import Transaction
-from bankapp.models import Account
+from user.models import Account
 from .serializers import TransactionSerializer
 from rest_framework.permissions import IsAuthenticated
+from django.core.mail import send_mail
+from django.conf import settings
 
 
 class MakeTransaction(CreateAPIView):
@@ -29,6 +31,11 @@ class MakeTransaction(CreateAPIView):
         account.save()
         transaction.balance = account.balance
         transaction.save()
+
+        subject = 'Transaction Acknowledgment'
+        message = f"Dear {user.first_name}{user.last_name},\n\nYour transaction has been successfully processed.\n\nTransaction Type: {transaction_type}\nAmount: {amount}\n\nThank you for using our service.\n\n Account Balance {account.balance}. \n\nRegards,\nYour Bank Team"
+        to_email = user.email
+        send_mail(subject, message, settings.EMAIL_HOST_USER, [to_email])
 
         return Response({'message': 'Transaction created successfully'}, status=status.HTTP_201_CREATED)
 
@@ -75,5 +82,25 @@ class AccountToAccountTransfer(CreateAPIView):
         recipient_account.save()
         deposit_transaction.balance = recipient_account.balance
         deposit_transaction.save()
+        sender_email = sender_account.customer.user.email
+        recipient_email = recipient_account.customer.user.email
+        sender_message = f"You have transferred {amount} to account {recipient_account_number}. Your current balance is {sender_account.balance}."
+        recipient_message = f"You have received {amount} from account {sender_account.account_number}. Your current balance is {recipient_account.balance}."
+
+        send_mail(
+            'Transfer Successful',
+            sender_message,
+            settings.EMAIL_HOST_USER, 
+            [sender_email], 
+            fail_silently=False,
+        )
+
+        send_mail(
+            'Transfer Received',
+            recipient_message,
+            settings.EMAIL_HOST_USER, 
+            [recipient_email],
+            fail_silently=False,
+        )
 
         return Response({'message': 'Transfer successful'}, status=status.HTTP_201_CREATED)

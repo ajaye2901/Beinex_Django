@@ -36,7 +36,7 @@ class AccountSerializer(serializers.ModelSerializer):
 
 
 class LoginSerializer(serializers.ModelSerializer):
-    email = serializers.EmailField(max_length=200)  
+    email = serializers.EmailField(max_length=200)  # Adding email field
     password = serializers.CharField(style={'input_type' : 'password'})
 
     class Meta:

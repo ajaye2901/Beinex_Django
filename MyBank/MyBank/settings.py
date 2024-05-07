@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'bankapp',
     'transaction',
     'fixed',
-    'loan'
+    'loan',
+    'finance_plan',
 
     'rest_framework',
     'rest_framework_simplejwt',

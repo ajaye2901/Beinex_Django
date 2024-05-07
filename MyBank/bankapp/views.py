@@ -11,27 +11,31 @@ from django.utils import timezone
 import random
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import Group
+from django.core.mail import send_mail
+from django.conf import settings
 
 
 
-class Customer_create(CreateAPIView):
+class CustomerDetail(CreateAPIView):
     permission_classes = [IsAuthenticated]
     def post(self, request, *args, **kwargs):
         if not request.user.has_perm('user.add_account'):
             return Response({"message": "User does not have the required permission"}, status=status.HTTP_200_OK)
         serializer = CreateCustomerSerializer(data=request.data)
         if serializer.is_valid():
+            # Extracting data from serializer
             first_name = serializer.validated_data['first_name']
-            password = serializer.validated_data['password'] 
+            password = serializer.validated_data['password']  # Extracting password from serializer
 
+            # Creating user with password
             user_obj = User.objects.create(
-                first_name=first_name,
+                first_name=serializer.validated_data['first_name'],
                 last_name=serializer.validated_data['last_name'],
-                email=serializer.validated_data['email'],  
-                username=serializer.validated_data['email'],  
+                email=serializer.validated_data['email'],  # Assuming email is provided in the serializer
+                username=serializer.validated_data['username'],  # Using email as username
                 mobile_number=serializer.validated_data['mobile_number'],
                 date_of_birth=serializer.validated_data['date_of_birth'],
-                password=make_password(password)  
+                password=make_password(password)  # Hashing password
             )
 
             try:
@@ -40,18 +44,27 @@ class Customer_create(CreateAPIView):
                 return Response({"error": "Customer group does not exist"}, status=status.HTTP_400_BAD_REQUEST)
             user_obj.groups.add(group_obj)
 
+            # Creating customer associated with the user
             customer_obj = Customer.objects.create(
                 user=user_obj,
                 aadhar_number=serializer.validated_data['aadhar_number'],
             )
 
+            # Generating account number
             account_number = f"{user_obj.user_id:06d}{random.randint(100000, 999999)}"
             
+            # Creating account
             Account.objects.create(
                 customer=customer_obj,
                 account_type=serializer.validated_data['account_type'],
                 account_number=account_number
             )
+
+            subject = 'Welcome to Our Platform'
+            message = f"Your bank account has been created successfuly {account_number}"
+            to_email = serializer.validated_data['email']
+            send_mail(subject, message, settings.EMAIL_HOST_USER, [to_email])
+
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -69,12 +82,16 @@ class Login(GenericAPIView):
         if serializer.is_valid():
             data = serializer.validated_data
             try:
+                # Authenticating user with email
                 user_obj = User.objects.get(email__iexact=data["email"])
+
+                # Checking password
                 if (data['password'], user_obj.password):
                     user_obj.last_login = timezone.now()
                     user_obj.save()
                     resp = LoginResponseSerializer(instance=user_obj)
                     resp_data = resp.data
+                    # resp_data['account_number'] = Account.objects.get(customer__user=user_obj).account_number
                     return Response(resp_data, status=status.HTTP_200_OK)
                 else:
                     return Response(

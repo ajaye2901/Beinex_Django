@@ -23,4 +23,5 @@ urlpatterns = [
     path('',include('transaction.urls')),
     path('',include('fixed.urls')),
     path('',include('loan.urls')),
+    path('',include('finance_plan.urls')),
 ]

@@ -8,7 +8,7 @@ class TransactionSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Transaction
-        fields = ['id', 'amount', 'transaction_type', 'recipient_account_number', 'timestamp']
+        fields = ['id', 'amount', 'transaction_type', 'timestamp']
 
     def to_representation(self, instance):
         data = super().to_representation(instance)
