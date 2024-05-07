@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Success Page</title>
+</head>
+<body>
+    <h1>Success!</h1>
+    <h2>Movie Details</h2>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Director</th>
+                <th>Genre</th>
+                <th>Year</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for movie in data %}
+            <tr>
+                <td>{{ movie.Title}}</td>
+                <td>{{ movie.Director }}</td>
+                <td>{{ movie.Genre }}</td>
+                <td>{{ movie.Year }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

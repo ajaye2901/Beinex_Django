@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Library Success Page</title>
+</head>
+<body>
+    <h1>Success</h1>
+    <h2>Library Details</h2>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Location</th>
+                <th>Library ID</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in data_lib %}
+            <tr>
+                <td>{{ item.Name }}</td>
+                <td>{{ item.Location }}</td>
+                <td>{{ item.Lib_ID }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

@@ -1,0 +1,40 @@
+{% extends 'blank_layout.html' %}
+{% block content %}
+  <h1>Checkout</h1>
+
+  <div class="cart-summary">
+    <h2>Cart Summary</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Product</th>
+          <th>Quantity</th>
+          <th>Price</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in cart.added_items.all %}
+        <tr>
+          <td>{{ item.product.title }}</td>
+          <td>{{ item.quantity }}</td>
+          <td>{{ item.total_price }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+      <tfoot>
+        <tr>
+          <td colspan="2">Total:</td>
+          <td>{{ total_price }}</td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+  <div class="checkout-form">
+    <h2>Checkout Information</h2>
+    <form method="post">
+        {% csrf_token %} 
+        {{ form.as_p }} 
+        <button type="submit" class="btn">Place Order</button> 
+    </form> 
+  </div>
+{% endblock %}

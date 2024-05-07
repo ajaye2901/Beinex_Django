@@ -1,0 +1,23 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Applicants</title>
+</head>
+<body>
+    <h1>Applicants for {{ job.Position }}</h1>
+    <ul>
+      {% for applicant in applicants %}
+        <li>
+          <h3>{{ applicant.Fullname }}</h3>
+          <p>Email: {{ applicant.Email }}</p>
+          <p>Contact No: {{ applicant.ContactNo }}</p>
+          <p>Qualification: {{ applicant.Qualification }}</p>
+          <p>Skills: {{ applicant.Skills }}</p>
+          <p>Cover Letter: {{ applicant.Coverletter }}</p>
+          <p>Resume: <a href="{{ applicant.Resume.url }}" target="_blank">View</a></p>
+        </li>
+      {% endfor %}
+    </ul>
+</body>
+</html> 

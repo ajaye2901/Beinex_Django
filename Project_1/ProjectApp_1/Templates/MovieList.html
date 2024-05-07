@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Movie</title>
+    </head>
+    <body>
+        <h1>Movie List</h1>
+        <ul>
+            {% for movie in data %}
+            <li>Title : {{ movie.Title }} ,
+                Director : {{ movie.Director }} ,
+                Genre : {{ movie.Genre }} ,
+                Released in : {{ movie.Release_year }}
+            </li>
+        {% endfor %}        
+        </ul>
+    </body>
+</html>

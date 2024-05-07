@@ -1,0 +1,15 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>homepage</title>
+</head>
+<body>
+    {% if user.is_authenticated %}
+    <h1>Welcome, {{ user.username }}</h1>
+    <a href="{% url 'joblist' %}">jobs</a><br><br>
+    <a href="{% url 'jobupdate' %}">Add New job</a><br><br>
+    <a href="{% url 'logout' %}">Logout</a><br><br>
+    {% endif %}
+</body> 
+</html>

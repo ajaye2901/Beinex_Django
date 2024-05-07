@@ -1,0 +1,46 @@
+{% extends 'blank_layout.html' %}
+{% load static %}
+
+{% block banner %}
+<div class="account-page">
+  <div class="container">
+    <div class="row">
+      <div class="col-2">
+        <img src="{% static 'images/image1.png' %}" width="100%">
+      </div>
+      <div class="col-2">
+        {% if messages %}
+        <div class="message-container">
+          {% for message in messages %}
+          <li class="{{ message.tags }}">{{ message }}</li>
+          {% endfor %}
+        </div>
+        {% endif %}
+        <div class="form-container">
+          <div class="form-btn">
+            <span onclick="register()">Verify OTP</span>
+          </div>
+          <form id="OTPForm" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="text" name="otp" placeholder="Enter OTP" required>
+            <button type="submit" class="btn">Verify</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock banner %}
+
+{% block content %}
+{% endblock content %}
+
+{% block scripts %}
+<script>
+  var OTPForm = document.getElementById("OTPForm");
+
+  function register() {
+    OTPForm.style.transform = "translatex(0px)";
+  }
+</script>
+{% endblock %}

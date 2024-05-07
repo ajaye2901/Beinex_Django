@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Uploaded Files</title>
+</head>
+<body>
+    <h1>Uploaded Files</h1>
+    <ul>
+        {% for file in files %}
+        <li><a href="{{ file.doc.url }}">{{ file.Filename }}</a></li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Library Form</title>
+    </head>
+    <body>
+        <h1>Add a Library</h1>
+        <form method="post" >
+            {% csrf_token %}
+            {{form_lib.as_p}}
+            <button type="submit">Submit</button>
+        </form>
+    </body>
+</html>

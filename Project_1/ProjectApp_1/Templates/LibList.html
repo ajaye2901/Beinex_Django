@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Movie Libraries</title>
+</head>
+<body>
+    <h1>Movie Libraries</h1>
+    <ul>
+        {% for movie_lib in MovieLibs %}
+        <li>
+            Library Name :{{ movie_lib.Name }} ,
+            Location: {{ movie_lib.Location }} ,
+            ID: {{ movie_lib.Lib_ID }}
+        </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
